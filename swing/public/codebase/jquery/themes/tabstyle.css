@@ -1,0 +1,33 @@
+﻿<style>
+
+div{
+border:none;
+}
+#jquery-ui-tabs.ui-widget-header{
+	color:rgb(244, 244, 244);
+}
+#jquery-ui-tabs.ui-tabs {
+	padding: 0;
+	border-width: 0;
+}
+
+#jquery-ui-tabs .ui-widget-header {
+	border: 1;
+}
+
+#jquery-ui-tabs .ui-tabs-nav {
+	border-width: 1;
+	padding: 0;
+}
+
+#jquery-ui-tabs .ui-tabs-panel {
+	/*border-width: 5px;*/
+}
+
+#jquery-ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+	border-width: 5px;
+	margin-bottom: -5px;
+}
+
+
+</style>

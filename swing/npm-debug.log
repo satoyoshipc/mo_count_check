@@ -1,0 +1,53 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   './iconv-2.0.7.tgzy' ]
+2 info using npm@1.3.14
+3 info using node@v0.10.22
+4 verbose node symlink C:\nodejs\\node.exe
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ './iconv-2.0.7.tgzy', null ]
+7 verbose cache add name=undefined spec="./iconv-2.0.7.tgzy" args=["./iconv-2.0.7.tgzy",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: './iconv-2.0.7.tgzy',
+8 verbose parsed url   path: './iconv-2.0.7.tgzy',
+8 verbose parsed url   href: './iconv-2.0.7.tgzy' }
+9 silly lockFile 0f0488e8-iconv-2-0-7-tgzy ./iconv-2.0.7.tgzy
+10 verbose lock ./iconv-2.0.7.tgzy C:\Documents and Settings\Administrator.MAILDSV11\Application Data\npm-cache\0f0488e8-iconv-2-0-7-tgzy.lock
+11 info maybeGithub Attempting ./iconv-2.0.7.tgzy from git://github.com/./iconv-2.0.7.tgzy
+12 silly lockFile 0e32c47b-git-github-com-iconv-2-0-7-tgzy git://github.com/./iconv-2.0.7.tgzy
+13 verbose lock git://github.com/./iconv-2.0.7.tgzy C:\Documents and Settings\Administrator.MAILDSV11\Application Data\npm-cache\0e32c47b-git-github-com-iconv-2-0-7-tgzy.lock
+14 verbose addRemoteGit [ 'git://github.com/./iconv-2.0.7.tgzy', 'master' ]
+15 silly lockFile 0e32c47b-git-github-com-iconv-2-0-7-tgzy git://github.com/./iconv-2.0.7.tgzy
+16 silly lockFile 0e32c47b-git-github-com-iconv-2-0-7-tgzy git://github.com/./iconv-2.0.7.tgzy
+17 info maybeGithub Attempting ./iconv-2.0.7.tgzy from git+ssh://git@github.com:./iconv-2.0.7.tgzy
+18 silly lockFile a39cdcc7--git-github-com-iconv-2-0-7-tgzy git+ssh://git@github.com:./iconv-2.0.7.tgzy
+19 verbose lock git+ssh://git@github.com:./iconv-2.0.7.tgzy C:\Documents and Settings\Administrator.MAILDSV11\Application Data\npm-cache\a39cdcc7--git-github-com-iconv-2-0-7-tgzy.lock
+20 verbose addRemoteGit [ 'git@github.com:./iconv-2.0.7.tgzy', 'master' ]
+21 silly lockFile 4bfb2815-git-github-com-iconv-2-0-7-tgzy git@github.com:./iconv-2.0.7.tgzy
+22 silly lockFile 0f0488e8-iconv-2-0-7-tgzy ./iconv-2.0.7.tgzy
+23 silly lockFile 0f0488e8-iconv-2-0-7-tgzy ./iconv-2.0.7.tgzy
+24 error addLocal Could not install ./iconv-2.0.7.tgzy
+25 error Error: ENOENT, stat 'C:\nodejs-sample\swing\iconv-2.0.7.tgzy'
+26 error If you need help, you may report this log at:
+26 error     <http://github.com/isaacs/npm/issues>
+26 error or email it to:
+26 error     <npm-@googlegroups.com>
+27 error System Windows_NT 5.2.3790
+28 error command "C:\\nodejs\\\\node.exe" "C:\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "./iconv-2.0.7.tgzy"
+29 error cwd C:\nodejs-sample\swing
+30 error node -v v0.10.22
+31 error npm -v 1.3.14
+32 error path C:\nodejs-sample\swing\iconv-2.0.7.tgzy
+33 error code ENOENT
+34 error errno 34
+35 verbose exit [ 34, true ]

@@ -1,0 +1,706 @@
+﻿<!DOCTYPE html>
+<html>
+	<link rel="stylesheet" href="codebase/jquery/themes/base/jquery.ui.all.css">
+	<script src="codebase/jquery/jquery-1.10.2.min.js"></script>
+
+	<script src="codebase/jquery/jquery.ui.datepicker.js"></script>
+	<script src="codebase/jquery/jquery.ui.datepicker-ja.js"></script>
+
+
+	<script src="codebase/jquery/jquery.cookie.js"></script>
+	
+	<script src="codebase/jquery/jquery-ui.min.js"></script>
+	<script src="codebase/jquery/jquery.ui.core.js"></script>
+	<script src="codebase/jquery/jquery.ui.widget.js"></script>
+	<script src="codebase/jquery/jquery.ui.tabs.js"></script>
+
+	<link rel="stylesheet" href="codebase/jquery/themes/tabstyle.css">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel='stylesheet' href='stylesheets/style.css' />
+	<script src="javascripts/javascript.js" type="text/javascript" charset="utf-8"></script>
+    <title><%= title %></title>
+</head>
+	
+    <script src="codebase/dhtmlxcommon.js" type="text/javascript" charset="utf-8"></script>
+    <script src="codebase/dhtmlxgrid.js" type="text/javascript" charset="utf-8"></script>
+    <script src="codebase/dhtmlxgridcell.js" type="text/javascript" charset="utf-8"></script>
+	<script src="codebase/ext/dhtmlxgrid_nxml.js" type="text/javascript" charset="utf-8"></script>
+    <script src="codebase/dhtmlxdataprocessor.js" type="text/javascript" charset="utf-8"></script>
+	<script src="codebase/excells/dhtmlxgrid_excell_link.js" type="text/javascript" charset="utf-8"></script>
+	<script src="codebase/excells/dhtmlxgrid_excell_cntr.js" type="text/javascript" charset="utf-8"></script>
+	<script src="codebase/ext/dhtmlxgrid_srnd.js" type="text/javascript" charset="utf-8"></script>
+	<script src="codebase/ext/dhtmlxgrid_filter.js" type="text/javascript" charset="utf-8"></script>
+	<script src="codebase/AIRAliases.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="codebase/dhtmlxgrid.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="codebase/skins/dhtmlxgrid_dhx_skyblue.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+	<script src="codebase/Highstock-1.3.7/js/highstock.js" type="text/javascript"></script>
+
+
+	<script src="codebase/exporting.js"></script>
+	
+	
+<script type="text/javascript">
+<!--
+function encodeall(){
+  fm2.sjis.value = EscapeSJIS(fm2.text.value);
+}
+function decodeall(){
+  fm2.sjis.value = UnescapeSJIS(fm2.text.value);
+}
+function utc2dateString(utc_msec) {
+	d=new Date();
+	d.setTime(utc_msec);
+  
+	var year  = d.getFullYear();
+	var month = d.getMonth() + 1;
+	var day   = d.getDate();
+	var hour  = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
+	var min   = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
+	var sec   = ( d.getSeconds() < 10 ) ? '0' + d.getSeconds() : d.getSeconds();
+  
+	return  month + '/' + day  ;
+}
+
+//DATEオブジェクトを文字列型に変えて返す
+function timestampConv(timestamp){
+
+	var d = timestamp;
+	var year  = d.getFullYear();
+	var month = ( d.getMonth() + 1   < 10 ) ? '0' + String(d.getMonth() + 1) : d.getMonth() + 1;
+	var day   = ( d.getDate()   < 10 ) ? '0' + d.getDate()   : d.getDate();
+	var hour  = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
+	var min   = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
+
+	return year + '-' + month + '-' + day + ' ' + hour + ':' + min ;
+}
+
+
+
+jQuery( function() {
+
+    jQuery( '#jquery-ui-tabs' ).tabs( {
+		active:($.cookie("tabs")) ? $.cookie("tabs") : 0,
+		activate: function( event, ui ){
+			$.cookie("tabs", $(this).tabs("option", "active"));
+		},
+        ajaxOptions: {
+			//クッキー1日間
+			cookie: { expire : 1} ,cache: true,
+            error: function( xhr, status, index, anchor ) {
+                jQuery( anchor . hash ) . html(
+                    '指定ファイルが見つからなかった場合、' +
+                    '<br />「このタブをロードできませんでした。」' +
+                    '<br />「指定ファイルが見つかりませんでした。」' +
+                    '<br />などと表示させるといい。'
+                );
+            }
+        }
+    });
+
+	//カレンダー
+	$( "#datepicker0" ).datepicker({
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+				//空なら今日のデータ
+				init(0);
+			}
+			else{
+				init(0,dateText.split('/').join('-'));
+			}
+		}
+	});
+	$( "#datepicker1" ).datepicker({
+
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+				//空なら今日のデータ
+				init(1);
+			}
+			else{
+				init(1,dateText.split('/').join('-'));
+			}
+		}		
+	});
+	$( "#datepicker2" ).datepicker({
+		showButtonPanel: true,
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+				init(2);
+			}
+			else{
+				init(2,dateText.split('/').join('-'));
+			}	
+		}
+	});
+	$( "#datepicker3" ).datepicker({
+		showButtonPanel: true,
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+				init(3);
+			}
+			else{
+				init(3,dateText.split('/').join('-'));
+			}
+		}
+	});
+	$( "#datepicker4" ).datepicker({
+		showButtonPanel: true,
+
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+				init(4);
+			}
+			else{
+				init(4,dateText.split('/').join('-'));
+			}
+		}	
+	});
+	$( "#datepicker5" ).datepicker({
+		showButtonPanel: true,
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+				init(5);
+			}
+			else{
+				init(5,dateText.split('/').join('-'));
+			}
+		}
+	});
+	$( "#datepicker6" ).datepicker({
+		showButtonPanel: true,
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+
+				init(6);
+			}
+			else{
+				init(6,dateText.split('/').join('-'));
+			}
+		}	
+	});
+	$( "#datepicker7" ).datepicker({
+		showButtonPanel: true,
+		//選択イベント
+		onSelect: function(dateText,ins){
+			if (dateText == "" ){
+
+				init(7);
+			}
+			else{
+				init(7,dateText.split('/').join('-'));
+			}
+		}	
+	});	
+
+} );
+// -->
+	
+	//ページが開かれたとき
+	function onPageShow() {
+		var $tabs = $('#jquery-ui-tabs').tabs();
+		var selected = ($tabs.tabs('option', 'active')) ? $.cookie("tabs") : 0;		
+		var selectdate = $( "#datepicker" + selected ).datepicker({dateformat: 'yyyy-mm-dd'}).val();
+		if(!selectdate){
+			selectdate = 'undefined';
+		}
+		init(selected,selectdate);
+	}
+
+    function init(servernum,datetxt) {
+	
+		if (servernum == 0 ){
+		
+			mygrid0 = new dhtmlXGridObject("server-top");
+			mygrid0.setImagePath("codebase/imgs/");
+
+			mygrid0.setHeader("サーバ,日時,mo_all,mib,#cspan,trap,#cspan,ping,#cspan,dummy,#cspan,disconnect_inactive,mib_audit,#cspan,trap_audit,#cspan");
+			mygrid0.attachHeader(["#rspan","#rspan","#rspan", "work","pend","work","pend","work","pend","work","pend","#rspan", "pend","work", "pend","work"]);
+			
+			mygrid0.attachEvent("onKeyPress", onKeyPressed0);
+			mygrid0.enableMultiselect(true);
+
+			mygrid0.setColumnIds("server_name,date,mo_all,mib_all_work,mib_all_pend,trap_all_work,trap_all_pend,ping_work,ping_pend,dummy_all_work,dummy_all_pend,disconnect_inactive,mib_audit_work,mib_audit_pend,trap_audit_work,trap_audit_pend");
+			mygrid0.setColAlign("left,right,right,right,right,right,right,right,right,right,right,right,right,right,right,right,right");
+			mygrid0.setInitWidths("100,120,70,50,50,50,50,50,50,50,50,120,50,50,50,50");
+			mygrid0.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+			mygrid0.setColSorting("int,str,int,int,int,int,int,int,int,int,int,int,int,int,int,int");
+			mygrid0.setSkin("dhx_skyblue");
+			mygrid0.init();
+
+			mygrid0.load("/data?cal=" + datetxt,"js"); 
+		}
+		
+		else if (servernum == 8 ){
+			getDevFileTimeStamp();
+
+		}
+		else{
+
+			mygrid1 = new dhtmlXGridObject("grid_here" + servernum);
+			mygrid1.setImagePath("codebase/imgs/");
+
+			mygrid1.attachEvent("onKeyPress", onKeyPressed1);
+			mygrid1.enableMultiselect(true);
+			
+			mygrid1.setHeader("No,カスタマID,日時,カスタマ名,mo_all,mib,#cspan,trap,#cspan,ping,#cspan,dummy,#cspan,disconnect_inactive,mib_audit,#cspan,trap_audit,#cspan");
+			mygrid1.attachHeader(["#rspan","#rspan","#rspan","#rspan","#rspan", "work","pend","work","pend","work","pend","work","pend","#rspan", "pend","work", "pend","work"]);
+			mygrid1.attachHeader("&nbsp;,#select_filter,#select_filter,#text_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter,#select_filter");
+			mygrid1.setColumnIds("no,customer_id,date,customer_name,mo_all,mib_all_work,mib_all_pend,trap_all_work,trap_all_pend,ping_work,ping_pend,dummy_all_work,dummy_all_pend,disconnect_inactive,mib_audit_work,mib_audit_pend,trap_audit_work,trap_audit_pend");
+			mygrid1.setColAlign("right,right,left,left,right,right,right,right,right,right,right,right,right,right,right,right,right,right");
+			mygrid1.setInitWidths("30,70,120,300,50,50,50,50,50,50,50,50,50,120,50,50,50,50");
+			mygrid1.setColTypes("cntr,ro,ro,link,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+			mygrid1.setColSorting("na,int,str,str,int,int,int,int,int,int,int,int,int,int,int,int,int,int");
+			mygrid1.setSkin("dhx_skyblue");
+			
+			mygrid1.init();
+			mygrid1.load("/data1?serverid=" + servernum + "&cal=" + datetxt,"js");
+		}
+	}
+
+function onKeyPressed0(code, ctrl, shift) {
+    if (code == 67 && ctrl) {
+		mygrid0.rowToClipboard();
+        mygrid0.setCSVDelimiter(",");
+    }
+    return true;
+}	
+function onKeyPressed1(code, ctrl, shift) {
+    if (code == 67 && ctrl) {
+		mygrid1.rowToClipboard();
+		
+        mygrid1.setCSVDelimiter(",");
+    }
+
+    return true;
+}	
+//機種情報の取得
+function getDevFileTimeStamp(){
+	//機種情報取得の場合
+	xmlhttp = new XMLHttpRequest();
+	//同期で実行
+	xmlhttp.open("GET","/device", true);
+	xmlhttp.setRequestHeader('Pragma','no-cache');
+	xmlhttp.setRequestHeader('Cache-Control','no-cache');
+	xmlhttp.setRequestHeader('If-Modified-Since','The, 01 Jun 1970 00:00:00 GMT');
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			var strarray;
+			string=xmlhttp.responseText;
+			strarray=string.split(',');
+			
+			var datestring = '';
+			//更新日時が変換可能かチェックを行う
+			if( isNaN(strarray[1]) || isNaN(parseInt(strarray[1]))){
+				datestring = 'ファイルが見つかりませんでした。';
+				hrefstring =  strarray[0] ;
+			}
+			else{
+				var d = new Date(parseInt(strarray[1],10));
+				datestring = timestampConv(d);
+				hrefstring =  '<A href="openthefile">' + strarray[0] + '</A> ';
+			}
+			//日時を設定する
+			document.getElementById("filename").innerHTML =hrefstring;
+			document.getElementById("updatetime").innerHTML = datestring;
+		}
+	}
+	xmlhttp.send();
+}
+
+$(function () {
+	var servername;
+	var selectdate = $( "#datepicker" + "0" ).datepicker({dateformat: 'yyyy-mm-dd'}).val();
+	if(!selectdate){
+		selectdate = 'undefined';
+	}
+
+	$.getJSON('bar?cal=' + selectdate, function(data) {
+		var line7 = [];
+		var line6 = [];
+		var line5 = [];
+		var line4 = [];
+		var line3 = [];
+		var line2 = [];
+		var line1 = [];
+		
+		var tmparray = data.pop();
+
+		for( var i = 0; i < tmparray.length;i ++ ){
+
+			line7.push([
+				parseInt(tmparray[i].date), // Filling of Array after Ajax Call
+				parseInt(tmparray[i].mo_all) // Filling of Array after Ajax Call
+		 ]);
+		 
+		}
+		tmparray = data.pop();
+		for( var i = 0; i < tmparray.length;i ++ ){
+
+			line6.push([
+				parseInt(tmparray[i].date), // Filling of Array after Ajax Call
+				parseInt(tmparray[i].mo_all) // Filling of Array after Ajax Call
+		 ]);
+		 
+		}
+		
+		tmparray = data.pop();
+		for( i = 0; i < tmparray.length;i ++ ){
+			line5.push([
+				parseInt(tmparray[i].date), // Filling of Array after Ajax Call
+				parseInt(tmparray[i].mo_all) // Filling of Array after Ajax Call
+		 ]);
+		}		 
+		tmparray = data.pop();
+		for( var i = 0; i < tmparray.length;i ++ ){
+			line4.push([
+				parseInt(tmparray[i].date), // Filling of Array after Ajax Call
+				parseInt(tmparray[i].mo_all) // Filling of Array after Ajax Call
+			]);
+		}
+
+		
+		tmparray = data.pop();
+		for( var i = 0; i < tmparray.length;i ++ ){
+			line3.push([
+				parseInt(tmparray[i].date), // Filling of Array after Ajax Call
+				parseInt(tmparray[i].mo_all) // Filling of Array after Ajax Call
+			]);
+		}
+
+		tmparray = data.pop();
+		for( var i = 0; i < tmparray.length;i ++ ){
+			line2.push([
+				parseInt(tmparray[i].date), // Filling of Array after Ajax Call
+				parseInt(tmparray[i].mo_all) // Filling of Array after Ajax Call
+			]);
+		}
+
+		tmparray = data.pop();
+		for( var i = 0; i < tmparray.length;i ++ ){
+			line1.push([
+				parseInt(tmparray[i].date), // Filling of Array after Ajax Call
+				parseInt(tmparray[i].mo_all) // Filling of Array after Ajax Call
+			]);
+		}
+
+		Highcharts.setOptions({
+				  global: {  // グローバルオプション
+				useUTC: false   // GMTではなくJSTを使う
+			  },
+			  lang: {  // 言語設定
+				rangeSelectorZoom: '表示範囲',
+				resetZoom: '表示期間をリセット',
+				resetZoomTitle: '表示期間をリセット',
+				rangeSelectorFrom: '表示期間',
+				rangeSelectorTo: '～',
+				printButtonTitle: 'チャートを印刷',
+				exportButtonTitle: '画像としてダウンロード',
+				downloadJPEG: 'JPEG画像でダウンロード',
+				downloadPDF: 'PDF文書でダウンロード',
+				downloadPNG: 'PNG画像でダウンロード',
+				downloadSVG: 'SVG形式でダウンロード',
+				months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+				weekdays: ['日', '月', '火', '水', '木', '金', '土'],
+				numericSymbols: null   // 1000を1kと表示しない
+			  }
+		});
+		
+		
+		
+        window.chart = new Highcharts.StockChart({
+		
+            chart: {
+                renderTo: 'container'
+			},
+            scrollbar: {
+                enabled: false
+            },
+
+            rangeSelector: {
+                selected: 1
+            },
+
+            title: {
+                text: 'サーバ毎サマリ'
+            },
+
+            credits: {
+                text: ''
+            },
+			exporting: {
+				enabled:false
+			},
+            yAxis: {
+                lineWidth: 0,
+                offset: 10,
+                labels: {
+                    align: 'right',
+                    x: -3,
+                    y: 6
+                },
+                plotLines : [{
+                    value : 100,
+                    color : 'red',
+                    dashStyle : 'shortdash',
+                    width : 2
+                }]
+            },
+
+            legend: {
+                enabled: true,
+                align: 'right',
+                layout: 'vertical',
+                verticalAlign: 'top',
+                y: 100
+            },
+
+            navigator : {
+                enabled : true
+            },
+
+            series: [{
+                name: '1号機',
+                data: line1,
+                type: 'column',
+                tooltip: {
+                }
+            },{
+                name: '2号機',
+                data: line2,
+                type: 'column',
+                tooltip: {
+                }
+            },{
+                name: '3号機',
+                data: line3,
+                type: 'column',
+                tooltip: {
+                }
+            },{
+                name: '4号機',
+                data: line4,
+                type: 'column',
+                tooltip: {
+                }
+            },{
+                name: '5号機',
+                data: line5,
+                type: 'column',
+                tooltip: {
+                }
+            },{
+
+                name: '6号機',
+                data: line6,
+                type: 'column',
+                tooltip: {
+                }
+            },{
+
+                name: '7号機',
+                data: line7,
+                type: 'column',
+                tooltip: {
+                }
+            }]
+        });
+    });
+});
+
+//再取得ボタン
+//function getDevText(){
+$(function() {
+	//再取得ボタンのクリック
+	$("#getdevBtn").click(function() {
+		$.support.cors = true;
+
+		$.ajax({	
+			//事前処理
+			beforeSend: function(){
+				//ボタンをDisableにする
+				$("#getdevBtn").attr("disabled","true");
+			},
+			type:"GET",
+			crossDomain: true,
+			cache:false,
+			url:"/getDevFile",
+			//同期する
+			async:false,
+			success:function(msg){
+
+				//受け取ったメッセージを表示
+				//$("#msgtest").text(msg);
+
+				//タイムスタンプを読み込む
+				getDevFileTimeStamp();
+			},
+			error: function(xhr,textStatus,errorThrown){
+				$("#msgtest").text(textStatus + ' ' + errorThrown);
+			},
+			//　完了処理
+			complete: function(xhr,event){
+				//正常に終了していたらテキストは空にする
+				$("#msgtest").text("");
+				
+				//ボタンを元に戻す
+				$("#getdevBtn").removeAttr("disabled");
+			}
+		});	
+	});
+});
+
+</script>
+
+<body onload="onPageShow();" >
+
+	<div class = "jtabs" id="jquery-ui-tabs" border=0px >
+
+		<ul class="tab-menu">
+			<li class="selected" ><a href="#jquery-ui-tabs-0" onClick="javascript:init(0);">Top</a></li>
+			<li><a href="#jquery-ui-tabs-1" onClick="javascript:init(1);">1号機</a></li>
+			<li><a href="#jquery-ui-tabs-2" onClick="javascript:init(2);">2号機</a></li>
+			<li><a href="#jquery-ui-tabs-3" onClick="javascript:init(3);">3号機</a></li>
+			<li><a href="#jquery-ui-tabs-4" onClick="javascript:init(4);">4号機</a></li>
+			<li><a href="#jquery-ui-tabs-5" onClick="javascript:init(5);">5号機</a></li>
+			<li><a href="#jquery-ui-tabs-6" onClick="javascript:init(6);">6号機</a></li>
+			<li><a href="#jquery-ui-tabs-7" onClick="javascript:init(7);">7号機</a></li>
+			<li><a href="#jquery-ui-tabs-8" onClick="javascript:init(8);">機種名一覧</a></li>
+		</ul>
+		<div class="tab-panel">
+		<div id="jquery-ui-tabs-0">
+			<p>指定日付を選択: <input type="text" id="datepicker0"></p>
+			<div class= "grid" id="server-top" style="width:100%; height:250px;"></div>
+			
+			<td valign="top" width="auto">
+			
+			出力設定:<br>
+			<input id="quote0" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+			<br />
+			<input id="labels0" type="checkbox" checked="true" /> 1行目に項目名を入れる
+			<br />
+			<input value=" 出力 " onclick="download(0);" type="button">
+			</td>
+			
+			<div id="container" style="width:100%; height: 400px;"></div>
+
+		</div>
+
+		<div id="jquery-ui-tabs-1">
+			<p>指定日付を選択: <input type="text" id="datepicker1"></p>
+			<div id="grid_here1" style="width:100%; height:500px;"></div>
+			<td valign="top" width="400px">
+			
+			出力設定:<br>
+			<input id="quote1" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+			<br />
+			<input id="labels1" type="checkbox" checked="true" /> 1行目に項目名を入れる
+			<br />
+			<input value=" 出力 " onclick="download(1);" type="button">
+			</td>
+		</div>
+
+		<div id="jquery-ui-tabs-2">
+			<p>指定日付を選択: <input type="text" id="datepicker2"></p>
+			<div id="grid_here2" style="width:100%; height:500px;"></div>
+			
+			<td valign="top" width="400px">
+			出力設定:<br>
+			<input id="quote2" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+			<br />
+			<input id="labels2" type="checkbox" checked="true" /> 1行目に項目名を入れる
+			<br />
+			<input value=" 出力 " onclick="download(2);" type="button">
+			</td>
+		</div>
+
+		<div id="jquery-ui-tabs-3">
+			<p>指定日付を選択: <input type="text" id="datepicker3"></p>
+			<div id="grid_here3" style="width:100%; height:500px;"></div>
+
+			<td valign="top" width="400px">
+			出力設定:<br>
+			<input id="quote3" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+			<br />
+			<input id="labels3" type="checkbox" checked="true" /> 1行目に項目名を入れる
+			<br />
+			<input value=" 出力 " onclick="download(3);" type="button">
+			</td>
+		</div>
+		<div id="jquery-ui-tabs-4">
+			<p>指定日付を選択: <input type="text" id="datepicker4"></p>
+			<div id="grid_here4" style="width:100%; height:500px;"></div>
+			
+			<td valign="top" width="400px">			
+			出力設定:<br>
+			<input id="quote4" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+			<br />
+			<input id="labels4" type="checkbox" checked="true" /> 1行目に項目名を入れる
+			<br />
+			<input value=" 出力 " onclick="download(4);" type="button">
+			</td>
+		</div>
+		<div id="jquery-ui-tabs-5">
+			<p>指定日付を選択: <input type="text" id="datepicker5"></p>
+			<div id="grid_here5" style="width:100%; height:500px;"></div>
+			<td valign="top" width="400px">			
+				出力設定:<br>
+				<input id="quote5" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+				<br />
+				<input id="labels5" type="checkbox" checked="true" /> 1行目に項目名を入れる
+				<br />
+				<input value=" 出力 " onclick="download(5);" type="button">
+			</td>
+		</div>
+		<div id="jquery-ui-tabs-6">
+			<p>指定日付を選択: <input type="text" id="datepicker6"></p>
+
+			<div id="grid_here6" style="width:100%; height:500px;"></div>
+			
+			<td valign="top" width="400px">			
+				出力設定:<br>
+				<input id="quote6" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+				<br />
+				<input id="labels6" type="checkbox" checked="true" /> 1行目に項目名を入れる
+				<br />
+				<input value=" 出力 " onclick="download(6);" type="button">
+			</td>
+		</div>
+		<div id="jquery-ui-tabs-7">
+			<p>指定日付を選択: <input type="text" id="datepicker7"></p>
+
+			<div id="grid_here7" style="width:100%; height:500px;"></div>
+			
+			<td valign="top" width="400px">			
+				出力設定:<br>
+				<input id="quote7" type="checkbox" checked="true" /> ダブルクォテーションで囲む
+				<br />
+				<input id="labels7" type="checkbox" checked="true" /> 1行目に項目名を入れる
+				<br />
+				<input value=" 出力 " onclick="download(7);" type="button">
+			</td>
+		</div>
+		<div id="jquery-ui-tabs-8">
+			<div style="border:#d0d0d0 double 5px;border-radius: 10px">
+				<p style="margin: 10px 10px;">ファイル名をクリックで表示</p> 
+				<table border= "1" style="width:300px;margin: 10px 10px;">
+				<tr>
+				<td><div id = "filename"></div></td>
+				<td><div id = "updatetime"></div></td>
+				</tr>
+				</table>
+				<button id="getdevBtn" style="margin: 10px 10px;">再ダウンロード</button>
+			</div>
+			<div id="msgtest"></div>
+		</div>
+		</div>
+	</div>
+</body>  
